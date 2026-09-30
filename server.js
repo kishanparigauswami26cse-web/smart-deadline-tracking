@@ -7,11 +7,11 @@ const authRoutes = require('./auth');
 const app = express();
 app.use(express.json());
 
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/tasks', require('./routes/tasks'));
+app.use('/api/auth', require('./auth'));
+app.use('/api/tasks', require('./tasks'));
 
 // Serve the frontend from /client
-app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.staticapp.use(express.static(__dirname)););
 
 // Fallback error handler
 app.use((err, req, res, next) => {
