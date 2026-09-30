@@ -1,4 +1,5 @@
 // ================= STATE & API =================
+localStorage.setItem("token", "demo123");
 let tasks = [];
 let editingId = null;
 let charts = {};
