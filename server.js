@@ -11,7 +11,8 @@ app.use('/api/auth', require('./auth'));
 app.use('/api/tasks', require('./tasks'));
 
 // Serve the frontend from /client
-app.use(express.staticapp.use(express.static(__dirname)););
+// Serve frontend
+app.use(express.static(__dirname));
 
 // Fallback error handler
 app.use((err, req, res, next) => {
