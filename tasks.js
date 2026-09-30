@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Task = require('./Task');
 //const auth = require('./auth');
 
-router.use(auth); // every task route needs login
+//router.use(auth); // every task route needs login
 
 // Only allow these fields from the client
 const pick = (b) => ({
