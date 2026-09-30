@@ -21,7 +21,10 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-mongoose
-  .connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/deadline-tracker')
+console.log("MONGO URI:", process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/deadline-tracker')
   .then(() => app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`)))
-  .catch((e) => { console.error('MongoDB connection failed:', e.message); process.exit(1); });
+  .catch((e) => {
+  console.error('MongoDB connection failed:', e.message);
+  process.exit(1);
+});
