@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Deadline Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- LOGIN / SIGNUP -->
+  <div id="auth" class="auth">
+    <div class="auth-box" id="authBox" data-mode="login">
+      <h1>Deadline Tracker</h1>
+      <p class="muted" id="authSub">Log in to see what to study today.</p>
+      <div class="tabs"><button type="button" class="tab active" data-mode="login">Log in</button><button type="button" class="tab" data-mode="signup">Create account</button><span class="tab-bar"></span></div>
+      <form id="authForm" novalidate>
+        <div class="collapse signup-only"><div><label>Name<input id="name" autocomplete="name" placeholder="Your name"></label></div></div>
+        <label>Email<input id="email" type="email" autocomplete="email" placeholder="name@example.com"></label>
+        <p class="hint" id="emailHint">Enter a valid email, like name@example.com</p>
+        <label>Password<span class="pw"><input id="password" type="password" autocomplete="current-password" placeholder="6+ characters"></span></label>
+        <div class="collapse signup-only"><div>
+          <div class="meter"><i id="meterBar"></i></div><p class="muted" id="meterTxt">Password strength</p>
+          <label>Confirm password<input id="confirm" type="password" autocomplete="new-password" placeholder="Repeat password"></label>
+        </div></div>
+        <button type="submit" id="submitBtn">Log in</button>
+        <p id="authErr" class="err" role="alert"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="hidden">
+    <div class="profile">
+      <button id="avatar" class="avatar" aria-label="Open profile" aria-expanded="false">U</button>
+      <div id="profileCard" class="profile-card" role="dialog" aria-label="Profile">
+        <div class="p-av" id="pAv">U</div>
+        <h4 id="pName">User</h4>
+        <p class="muted" id="pEmail"></p>
+        <div class="p-stats">
+          <div><b id="pTotal">0</b><span>Tasks</span></div>
+          <div><b id="pDone">0</b><span>Done</span></div>
+          <div><b id="pPend">0</b><span>Pending</span></div>
+        </div>
+        <p class="muted" id="pSince"></p>
+        <button id="pLogout" class="ghost">Log out</button>
+      </div>
+    </div>
+    <aside>
+      <h2>Deadline<br>Tracker</h2>
+      <nav>
+        <a data-view="dashboard" class="active">Dashboard</a>
+        <a data-view="analytics">Analytics</a>
+        <label class="switch"><span>Reminders</span><input type="checkbox" id="remToggle" role="switch"><i></i></label>
+        <a id="logout">Log out</a>
+      </nav>
+      <p id="who" class="muted"></p>
+    </aside>
+
+    <main>
+      <!-- DASHBOARD -->
+      <section id="dashboard">
+        <header>
+          <h1>Today</h1>
+          <button id="addBtn">Add task</button>
+        </header>
+        <div id="todayPlan" class="today"></div>
+        <h3>Next 7 days</h3>
+        <div id="weekPlan" class="week"></div>
+        <h3>All tasks</h3>
+        <div class="filters"><input id="search" placeholder="Search tasks" aria-label="Search tasks">
+          <div id="chips"><button class="chip active" data-f="All">All</button><button class="chip" data-f="High">High</button><button class="chip" data-f="Medium">Medium</button><button class="chip" data-f="Low">Low</button><button class="chip" data-f="Completed">Completed</button></div></div>
+        <div id="tasks" class="tasks"></div>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section id="analytics" class="hidden">
+        <header><h1>Analytics</h1></header>
+        <div class="charts">
+          <div class="panel"><h3>Tasks due per day</h3><canvas id="cDue"></canvas></div>
+          <div class="panel"><h3>Completed vs pending</h3><canvas id="cStatus"></canvas></div>
+          <div class="panel wide"><h3>Planned study hours per day</h3><canvas id="cLoad"></canvas></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ADD / EDIT MODAL -->
+  <div id="modal" class="modal hidden">
+    <form id="taskForm">
+      <h2 id="modalTitle">Add task</h2>
+      <label>Title<input id="fTitle" required></label>
+      <label>Description<textarea id="fDesc" rows="2"></textarea></label>
+      <label>Deadline<input id="fDeadline" type="datetime-local" required></label>
+      <div class="row">
+        <label>Difficulty (1–5)<input id="fDiff" type="number" min="1" max="5" value="3" required></label>
+        <label>Importance (1–5)<input id="fImp" type="number" min="1" max="5" value="3" required></label>
+      </div>
+      <label>Status
+        <select id="fStatus"><option>Pending</option><option>Completed</option></select>
+      </label>
+      <div class="row">
+        <button type="submit">Save task</button>
+        <button type="button" class="ghost" id="cancelBtn">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
