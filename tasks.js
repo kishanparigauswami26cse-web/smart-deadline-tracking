@@ -15,10 +15,19 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  try { res.status(201).json(await Task.create({ ...pick(req.body), user: req.userId })); }
-  catch (e) { res.status(400).json({ message: e.message }); }
-});
+  try {
+    const task = new Task({
+      ...req.body,
+      user: req.user   // ✅ ADD THIS LINE
+    });
 
+    await task.save();
+    res.json(task);
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 router.put('/:id', async (req, res) => {
   try {
     const t = await Task.findOneAndUpdate({ _id: req.params.id, user: req.userId }, pick(req.body),
